@@ -61,6 +61,3 @@ articles = [
 
     """The renewable energy sector is buzzing after two separate American universities announced competing solar efficiency milestones this week. Both MIT and Stanford claim to have achieved efficiency rates above 45% using perovskite-based solar cells, far exceeding the current commercial standard of around 22%. Critics have questioned whether the results can be replicated outside laboratory settings. Environmental groups praised the developments, saying cheaper solar could accelerate the global transition away from fossil fuels. Stock prices for several solar manufacturers rose sharply following the announcements.""",
 ]
-
-
-print(summarize_articles(articles))
