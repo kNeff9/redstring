@@ -19,6 +19,8 @@ class Cluster:
 
         # Stores embedding val of each article to later get the average
         self.embedding_vectors = []
+
+        self.title = None
     
     def add_article(self, article):
 
@@ -67,11 +69,13 @@ world_news_feeds = [
 
 headlines = []
 
-articles = []
 
-def get_article_clusters():
+def fetch_articles(article_links):
 
-    for source in world_news_feeds:
+    titles = []
+    articles = []
+
+    for source in article_links:
 
         d = feedparser.parse(source)
 
@@ -85,16 +89,21 @@ def get_article_clusters():
 
             if 'title' in entry:
 
-                headlines.append(entry.title)
-
                 if 'link' in entry:
 
-                    article = newspaper.article(entry.link)
-                    articles.append(article.text)
-            
-            # time.sleep(1)
-        
+                    try: 
+                        article = newspaper.article(entry.link)
+                        titles.append(article.title)
+                        articles.append(article.text)
+                    except:
+                        continue
+    
+    return (titles, articles)
 
+
+def get_article_clusters():
+        
+    articles = fetch_articles(world_news_feeds)[1]
 
     model = SentenceTransformer('all-mpnet-base-v2')
 
@@ -130,5 +139,7 @@ def get_article_clusters():
         final_cluster_array.append(article_clusters[label])
     
     return final_cluster_array
+
+    
     
 

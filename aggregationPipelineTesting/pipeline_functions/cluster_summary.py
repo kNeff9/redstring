@@ -27,6 +27,8 @@ def summarize_articles(articles):
     for i in range(len(articles)):
 
         article_context.append(
+
+            
             {
                 "type": "document",
                 "source": {"type": "text", "media_type": "text/plain", "data": articles[i]},
