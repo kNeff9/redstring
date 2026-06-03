@@ -1,8 +1,14 @@
 from configparser import ConfigParser
+import os
 
 def load_config(filename='database.ini', section='postgresql'):
+
+    # Added so database.ini file is able to be found wherever this is ran
+    base_dir = os.path.dirname(os.path.abspath(__file__)) 
+    filepath = os.path.join(base_dir, filename)
+
     parser = ConfigParser()
-    parser.read(filename)
+    parser.read(filepath)
 
     # get section, default to postgresql
     config = {}
