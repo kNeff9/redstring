@@ -1,5 +1,5 @@
 import psycopg2
-from config import load_config
+from database.config import load_config
 
 def insert_timeline(timeline):
 
@@ -20,7 +20,7 @@ def insert_timeline(timeline):
             with conn.cursor() as cur:
 
                 cur.execute(sql, (
-                    timeline.id,
+                    str(timeline.id),
                     timeline.title,
                     timeline.centroid.tolist()
                 ))

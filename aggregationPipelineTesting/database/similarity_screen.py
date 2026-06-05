@@ -10,9 +10,9 @@ def get_timeline_candidates(story):
 
     sql = """SELECT id, title, centroid
             FROM timelines
-            WHERE centroid <=> %s < %s;"""
+            WHERE centroid <=> %s::vector < %s;"""
     
-    diff_threshold = 0.2
+    diff_threshold = 0.4
 
     config = load_config()
 
