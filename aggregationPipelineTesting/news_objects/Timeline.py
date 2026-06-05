@@ -6,16 +6,18 @@
 
 class Timeline:
 
-    def __init__(self, id, score, title):
+    def __init__(self, id, centroid, title, description = ""):
         
         # UUID for organizing in database and connecting to stories
         self.id = id
 
         # Embedding score for comparison during story sorting process
-        self.score = score
+        self.centroid = centroid
 
         # String title of timeline (May update over time, not sure yet)
         self.title = title
+
+        self.description = description
 
         # When a new timeline is created, it has >= 1 story
         self.numStories = 1
