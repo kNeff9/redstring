@@ -70,7 +70,9 @@ world_news_feeds = [
 headlines = []
 
 
-def fetch_articles(article_links):
+def fetch_articles():
+
+    article_links = world_news_feeds
 
     titles = []
     articles = []
@@ -101,9 +103,7 @@ def fetch_articles(article_links):
     return (titles, articles)
 
 
-def get_article_clusters():
-        
-    articles = fetch_articles(world_news_feeds)[1]
+def get_article_clusters(articles):
 
     model = SentenceTransformer('all-mpnet-base-v2')
 
