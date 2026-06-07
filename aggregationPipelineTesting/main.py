@@ -2,8 +2,10 @@ from pipeline_functions.article_embedding import *
 from pipeline_functions.cluster_summary import *
 from news_objects.Story import *
 from news_objects.Timeline import *
+from database.similarity_screen import *
+from database.timelines import *
+from database.stories import *
 import os
-from database.insert import *
 
 """
 
@@ -14,50 +16,8 @@ them to timelines.
 # Array of Story() objects after clusters are summarized. They inherit the ai summary and cluster centroid
 stories = []
 
-world_news_feeds = [
-    # 1. Associated Press - World News
-    'https://apnews.com/apf-topnews',
-    
-    # 2. BBC World News
-    'https://feeds.bbci.co.uk/news/world/rss.xml',
-    
-    # 3. Reuters World
-    'https://www.reutersagency.com/feed/?taxonomy=best-topics&post_type=best',
-    
-    # 4. Al Jazeera
-    'https://www.aljazeera.com/xml/rss/all.xml',
-    
-    # 5. The Guardian - World News
-    'https://www.theguardian.com/world/rss',
-    
-    # 6. NPR World News
-    'https://feeds.npr.org/1004/rss.xml',
-    
-    # 7. CNN World
-    'http://rss.cnn.com/rss/cnn_world.rss',
-    
-    # 8. Deutsche Welle (German international broadcaster)
-    'https://rss.dw.com/xml/rss-en-all',
-    
-    # 9. France 24 English
-    'https://www.france24.com/en/rss',
-    
-    # 10. ABC News International
-    'https://abcnews.go.com/abcnews/internationalheadlines',
-]
-
-
-# temp = fetch_articles(world_news_feeds)[1]
-
-# for item in temp:
-
-#     print(item[:100])
-#     print("=========================")
-#     print()
-
-
 # An array of Cluster() objects
-article_clusters = get_article_clusters()
+article_clusters = get_article_clusters(fetch_articles()[1])
 
 popular_stories = []
 
@@ -69,9 +29,49 @@ for cluster in article_clusters:
 
     curr_summary = summarize_articles(cluster.articles)
 
+    print(len(cluster.articles))
+    print(curr_summary)
+    print("======================================")
+
     newStory = Story(cluster.centroid, curr_summary)
 
     stories.append(newStory)
+
+
+for s in stories:
+
+    timeline_candidates = get_timeline_candidates(s)
+
+    if len(timeline_candidates) < 1:
+
+        # If the story has no timelines it fits into, a new one is created
+
+        timeline_title = generate_title(s)
+
+        print("New timeline created: ", timeline_title)
+        print("")
+
+        new_timeline = Timeline(s.timeline_id, s.centroid, timeline_title)
+
+        insert_timeline(new_timeline)
+
+        insert_story(s)
+
+        continue
+
+    for row in timeline_candidates:
+
+        candidate_id = row[0]
+
+        s.timeline_id = candidate_id
+
+        insert_story(s)
+
+        break
+
+    
+
+
 
 
 
