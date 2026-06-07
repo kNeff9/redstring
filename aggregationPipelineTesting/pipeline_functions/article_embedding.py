@@ -1,6 +1,7 @@
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import AgglomerativeClustering
+from database.urls import *
 import newspaper
 import feedparser
 import spacy
@@ -93,10 +94,16 @@ def fetch_articles():
 
                 if 'link' in entry:
 
+                    seen_url = already_seen(entry.link) # Checking if link is in db seen_urls table already
+
+                    if seen_url:
+                        continue
+
                     try: 
                         article = newspaper.article(entry.link)
                         titles.append(article.title)
                         articles.append(article.text)
+                        insert_url(entry.link) # Adding new url to db seen_urls table
                     except:
                         continue
     
