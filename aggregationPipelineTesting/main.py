@@ -1,11 +1,19 @@
 from pipeline_functions.article_embedding import *
-from pipeline_functions.cluster_summary import *
+from llmFunctions.cluster_summary import *
+from llmFunctions.timeline_decisions import *
 from news_objects.Story import *
 from news_objects.Timeline import *
 from database.similarity_screen import *
 from database.timelines import *
 from database.stories import *
 import os
+
+
+# TODO:
+# Add ai sorting of stories into fitting timeline candidates. Right now I just have the
+# stories being inserted into the first timeline they fit into. However, as data grows I will
+# have to adjust similarity thresholds and implement nuanced sorting because there will be multiple 
+# candidates. 
 
 """
 
@@ -65,7 +73,19 @@ for s in stories:
 
         s.timeline_id = candidate_id
 
-        insert_story(s)
+        latest_tl_stories = [item[2] for item in latest_timeline_stories(candidate_id)]
+
+        timeline_fit_res = determine_timeline_fit(latest_timeline_stories, s.text)
+
+        if timeline_fit_res:
+
+            s.timeline_id = candidate_id
+            insert_story(s)
+
+        # I realize now that if a story fits into multiple timelines, I either have to have duplicate
+        # stories in the db with different timeline_id's, or have timeline_id contain multiple ids
+
+        # Both of these seem inneficient, so I will do some research. 
 
         break
 
