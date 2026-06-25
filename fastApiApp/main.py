@@ -1,30 +1,72 @@
 from fastapi import FastAPI
+from database.timelines import *
+from database.stories import *
 
 from pydantic import BaseModel
 
 app = FastAPI()
 
-class User(BaseModel):
-
-    id: int
-    name: str
-
-
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    
+    timelines_rows = fetch_all_timelines()
 
+    json_timelines = []
+
+    for i in range(len(timelines_rows)):
+
+        row = timelines_rows[i]
+
+        json_timelines.append({
+            "number" : i+1,
+            "title" : row[1],
+            "id" : row[0]
+        })
+
+    return json_timelines
+
+    
 @app.get("/timelines")
 def get_all_timelines():
-    timelines = []
 
-    return {"timeline": 2}
+    timelines_rows = fetch_all_timelines()
 
-@app.get("/timeline/{timeline_id}")
-def get_timeline(timeline_id: int):
+    json_timelines = []
 
-    return {"timeline_id": timeline_id}
+    for i in range(len(timelines_rows)):
+
+        row = timelines_rows[i]
+
+        json_timelines.append({
+            "number" : i+1,
+            "title" : row[1],
+            "id" : row[0]
+        })
+
+    return json_timelines
+
+@app.get("/timelines/{timeline_id}")
+def get_timeline(timeline_id: str):
+
+    json_stories = []
+
+    print(timeline_id)
+
+    stories = fetch_timeline_stories(timeline_id)
+
+
+    for i in range(len(stories)):
+
+        row = stories[i]
+
+        json_stories.append({
+            "num": i+1,
+            "id": row[0],
+            "content": row[2]
+        })
+
+    return json_stories
 
 
 @app.get("/items/{item_id}")
