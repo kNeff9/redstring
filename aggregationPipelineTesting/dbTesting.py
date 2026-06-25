@@ -1,6 +1,7 @@
 from database.stories import *
 from database.timelines import *
 from database.similarity_screen import *
+from database.urls import *
 from news_objects.Story import *
 from news_objects.Timeline import *
 import os
@@ -14,10 +15,11 @@ import uuid
 # ALTER TABLE stories ADD CONSTRAINT stories_timeline_id_fkey 
 # FOREIGN KEY (timeline_id) REFERENCES timelines(id);
 
-test_centroid = np.random.rand(768)
+timeline_id = '16e50ec7-ed43-47e9-ba0f-e7cde627ad33'
 
-test_id = uuid.uuid4()
+res = latest_timeline_stories(timeline_id)
 
-test_timeline = Timeline(test_id, test_centroid, "")
+for item in res:
 
-insert_timeline(test_timeline)
+    print(item[2])
+    print()
