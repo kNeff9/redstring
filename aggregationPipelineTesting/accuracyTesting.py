@@ -1,5 +1,5 @@
 from pipeline_functions.article_embedding import *
-from pipeline_functions.cluster_summary import *
+from aggregationPipelineTesting.llmFunctions.cluster_summary import *
 from news_objects.Story import *
 from news_objects.Timeline import *
 from database.similarity_screen import *
