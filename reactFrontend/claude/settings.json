@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(./reactFrontend/**)",
+      "Write(./reactFrontend/**)"
+    ],
+    "deny": [
+      "Read(../)",
+      "Write(../)"
+    ]
+  }
+}
