@@ -19,6 +19,11 @@ timeline_id = '16e50ec7-ed43-47e9-ba0f-e7cde627ad33'
 
 res = latest_timeline_stories(timeline_id)
 
+title = get_timeline_title(timeline_id)[0]
+
+print(title)
+print()
+
 for item in res:
 
     print(item[2])
