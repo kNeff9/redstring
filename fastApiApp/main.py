@@ -71,7 +71,8 @@ def get_timeline(timeline_id: str):
         json_stories.append({
             "num": i+1,
             "id": row[0],
-            "content": row[2]
+            "content": row[2],
+            "date": row[4]
         })
 
     return json_stories
