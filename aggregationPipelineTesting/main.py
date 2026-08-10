@@ -75,7 +75,7 @@ for s in stories:
 
         latest_tl_stories = [item[2] for item in latest_timeline_stories(candidate_id)]
 
-        timeline_fit_res = determine_timeline_fit(latest_timeline_stories, s.text)
+        timeline_fit_res = determine_timeline_fit(latest_tl_stories, s.text)
 
         if timeline_fit_res:
 

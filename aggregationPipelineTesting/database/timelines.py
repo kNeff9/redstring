@@ -30,3 +30,31 @@ def insert_timeline(timeline):
     except (Exception, psycopg2.DatabaseError) as Error:
 
         print(Error)
+
+
+def get_timeline_title(timeline_id: str):
+
+
+    """Getting the title of the timeline via id"""
+
+
+    sql = """SELECT title FROM timelines
+            WHERE id = %s;"""
+    
+    config = load_config()
+
+    try:
+
+        with psycopg2.connect(**config) as conn:
+
+            with conn.cursor() as cur:
+
+                cur.execute(sql, (
+                    timeline_id,
+                ))
+
+                return cur.fetchone()
+    
+    except (Exception, psycopg2.DatabaseError) as Error:
+
+        print(Error)

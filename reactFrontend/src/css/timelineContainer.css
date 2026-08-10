@@ -1,29 +1,54 @@
+/* The link is the element flowed into the masonry columns, so it owns the
+   break-inside/margin rules that keep each card whole within a column. */
+.timeline-container-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  break-inside: avoid;
+  margin-bottom: 20px;
+
+  @media (max-width: 500px) {
+    margin-bottom: 16px;
+  }
+}
+
+.timeline-container-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
 .timeline-container {
   box-sizing: border-box;
   padding: 24px 20px;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--social-bg);
+  background: rgba(20, 20, 28, 0.6);
   text-align: left;
   cursor: pointer;
   transition: box-shadow 0.3s, border-color 0.3s, transform 0.2s;
-  /* Keep each card whole within a column and space stacked cards vertically */
-  break-inside: avoid;
-  margin-bottom: 20px;
-
-  @media (max-width: 1024px) {
-    margin-bottom: 16px;
-  }
 }
 
-.timeline-container:hover {
+.timeline-container-link:hover .timeline-container,
+.timeline-container-link:focus-visible .timeline-container {
   border-color: var(--accent-border);
   box-shadow: var(--shadow);
   transform: translateY(-2px);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .timeline-container {
+    transition: none;
+  }
+  .timeline-container-link:hover .timeline-container,
+  .timeline-container-link:focus-visible .timeline-container {
+    transform: none;
+  }
+}
+
 .timeline-container-title {
   margin: 0;
-  color: var(--text-h);
+  font-size: 16px;
+  color: #f3f4f6;
   overflow-wrap: break-word;
 }
