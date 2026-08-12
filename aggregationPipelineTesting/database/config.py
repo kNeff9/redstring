@@ -1,7 +1,23 @@
 from configparser import ConfigParser
 import os
+from dotenv import load_dotenv
+load_dotenv(dotenv_path='../.env')
 
 def load_config(filename='database.ini', section='postgresql'):
+
+    # Checking for use of Docker. If so, get env variables instead of .ini. 
+    if os.getenv('DB_HOST'):
+        return {
+            'host': os.getenv('DB_HOST'),
+            'database': os.getenv('DB_NAME'),
+            'user': os.getenv('DB_USER'),
+            'password': os.getenv('DB_PASSWORD'),
+            'port': os.getenv('DB_PORT')
+        }
+
+    else:
+
+        print("Not docker db")
 
     # Added so database.ini file is able to be found wherever this is ran
     base_dir = os.path.dirname(os.path.abspath(__file__)) 
