@@ -45,6 +45,15 @@ DB_NAME=redstring
 DB_USER=postgres
 DB_PASSWORD= # Enter any value
 ```
+
+Now, you can spin up the docker container to start the app.
+
+```bash
+docker compose up --build
+```
+
+Visit http://localhost:5173 in your browser to see the app running.
+
 --- 
 ### Note:
 
@@ -78,8 +87,17 @@ This allows the story collection/timeline organization process to run.
 
 --- 
 
-Now, you can spin up the docker container to see the stories you have collected.
+### Stopping container
+
+To stop the container just run
 
 ```bash
-docker compose up --build
+docker compose down
 ```
+
+This keeps your data. If you want to wipe the data run
+
+```bash
+docker compose down -v
+```
+
