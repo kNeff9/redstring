@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -19,6 +19,9 @@ app.add_middleware(
 def read_root():
     
     timelines_rows = fetch_all_timelines()
+
+    if len(timelines_rows) == 0:
+        return {}
 
     json_timelines = []
 
@@ -39,6 +42,9 @@ def read_root():
 def get_all_timelines():
 
     timelines_rows = fetch_all_timelines()
+
+    if len(timelines_rows) == 0:
+        return {}
 
     json_timelines = []
 
@@ -63,6 +69,8 @@ def get_timeline(timeline_id: str):
 
     stories = fetch_timeline_stories(timeline_id)
 
+    if len(stories) == 0:
+        return {}
 
     for i in range(len(stories)):
 
