@@ -27,6 +27,7 @@ def fetch_all_timelines():
     except (Exception, psycopg2.DatabaseError) as Error:
 
         print(Error)
+        return []
 
 
 
